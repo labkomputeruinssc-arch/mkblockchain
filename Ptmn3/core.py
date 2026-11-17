@@ -7,11 +7,18 @@ class Block:
         self.index = index
         self.timestamp = time.time()
         self.data = data
+        self.nonce = 0
         self.previous_hash = prev_hash
         self.hash = self.calculate_hash()
 
     @property
 
+    def mine_block(self, difficulty):
+        target = "0" * difficulty
+        while self.hash[:difficulty] != target:
+            self.nonce += 1
+            self.hash = self.calculate_hash()
+        print(f"Block Mined! Hash: {self.hash} | Nonce: {self.nonce}")
     def timestamp_readable(self):
         local_tz = ZoneInfo("Asia/Jakarta")
         return datetime.fromtimestamp(
